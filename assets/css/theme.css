@@ -526,3 +526,41 @@ body {
     display: none;
   }
 }
+
+/* ========== 底栏 ========== */
+.site-footer {
+  text-align: center;
+  padding: 30px 20px 20px;
+  margin-left: 280px;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.github-link {
+  display: inline-block;
+  color: #636e72;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.github-link:hover {
+  color: #6c5ce7;
+  transform: scale(1.15);
+}
+
+.footer-copyright {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #b2bec3;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .site-footer {
+    margin-left: 0;
+  }
+}
