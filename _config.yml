@@ -1,13 +1,13 @@
 # Jekyll 紫色渐变雨主题配置
-title: "我的紫色空间"
-description: "一个带有紫色渐变顶栏、侧边栏和白色雨特效的 Jekyll 主题"
+title: "Yddns's Blog"
+description: "powered by Jekyll"
 url: ""
 baseurl: ""
 
 # 主题自定义变量
 theme_config:
-  header_title: "自定义标题"
-  header_subtitle: "欢迎访问我的个人站点"
+  header_title: "Yddns Blog"
+  header_subtitle: "Welcome to my blog!"
   sidebar_post_count: 10
   rain_intensity: 120
 

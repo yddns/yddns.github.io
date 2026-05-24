@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <div class="sidebar-inner">
-    <h3 class="sidebar-title">📄 最近更新</h3>
+    <h3 class="sidebar-title">📄 Recent Posts</h3>
     <ul class="recent-posts">
       {% assign recent_posts = site.posts | sort: 'last_modified_at' | reverse %}
       {% for post in recent_posts limit: site.theme_config.sidebar_post_count | default: 10 %}
