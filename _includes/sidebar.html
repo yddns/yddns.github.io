@@ -1,0 +1,32 @@
+<aside class="sidebar">
+  <div class="sidebar-inner">
+    <h3 class="sidebar-title">📄 最近更新</h3>
+    <ul class="recent-posts">
+      {% assign recent_posts = site.posts | sort: 'last_modified_at' | reverse %}
+      {% for post in recent_posts limit: site.theme_config.sidebar_post_count | default: 10 %}
+      <li class="post-item">
+        <a href="{{ post.url | relative_url }}" class="post-link">
+          <span class="post-title">{{ post.title }}</span>
+          <span class="post-date">
+            {{ post.last_modified_at | default: post.date | date: "%m-%d %H:%M" }}
+          </span>
+        </a>
+      </li>
+      {% else %}
+        {% assign fallback_posts = site.posts | sort: 'date' | reverse %}
+        {% for post in fallback_posts limit: site.theme_config.sidebar_post_count | default: 10 %}
+        <li class="post-item">
+          <a href="{{ post.url | relative_url }}" class="post-link">
+            <span class="post-title">{{ post.title }}</span>
+            <span class="post-date">{{ post.date | date: "%m-%d" }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+
+    <div class="sidebar-footer">
+      <p>共 {{ site.posts | size }} 篇文章</p>
+    </div>
+  </div>
+</aside>

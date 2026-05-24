@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+</head>
+<body>
+  <!-- 随机风景图床背景层 -->
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <!-- 白色雨特效层 -->
+  {% include rain-effect.html %}
+
+  <!-- 紫色渐变顶栏 -->
+  {% include header.html %}
+
+  <div class="main-wrapper">
+    <!-- 贴紧最左侧的侧边栏 -->
+    {% include sidebar.html %}
+
+    <!-- 正文区域 -->
+    <main class="content">
+      <div class="hero-section">
+        <h1 class="hero-title">{{ site.theme_config.header_title | default: site.title }}</h1>
+        <p class="hero-subtitle">{{ site.theme_config.header_subtitle | default: site.description }}</p>
+      </div>
+
+      <div class="page-content">
+        {{ content }}
+      </div>
+    </main>
+  </div>
+
+  <script>
+    window.siteConfig = {
+      rain_intensity: {{ site.theme_config.rain_intensity | default: 100 }}
+    };
+  </script>
+  <script src="{{ '/assets/js/rain.js' | relative_url }}"></script>
+</body>
+</html>
