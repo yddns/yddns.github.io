@@ -11,5 +11,5 @@ platforms :mingw, :x64_mingw, :mswin, :jruby do
 end
 
 # 性能优化
-gem "wdm", "~> 0.1", :platforms => [:mingw, :x64_mingw, :mswin]
-gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
+  gem "wdm", "~> 0.2", :platforms => [:mingw, :x64_mingw, :mswin]
+  gem "http_parser.rb", "~> 0.8", :platforms => [:jruby]
