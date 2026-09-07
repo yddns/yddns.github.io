@@ -145,6 +145,69 @@
     headerBg.style.setProperty('--header-img', `url(https://picsum.photos/seed/${seed}/1920/64)`);
   }
 
+  function initMusicPlayer() {
+    const audio = document.getElementById('musicAudio');
+    const toggle = document.getElementById('musicToggle');
+    const progress = document.getElementById('musicProgress');
+    const time = document.getElementById('musicTime');
+    const player = document.querySelector('.music-player');
+    if (!audio || !toggle || !progress || !time || !player) return;
+
+    const formatTime = seconds => {
+      if (!Number.isFinite(seconds)) return '0:00';
+      const minutes = Math.floor(seconds / 60);
+      const remainder = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${minutes}:${remainder}`;
+    };
+
+    const updateButton = () => {
+      const playing = !audio.paused;
+      toggle.setAttribute('aria-label', playing ? '停止音乐' : '播放音乐');
+      toggle.title = playing ? '停止音乐' : '播放音乐';
+      toggle.querySelector('.player-icon').textContent = playing ? '❚❚' : '▶';
+      player.classList.toggle('is-playing', playing);
+    };
+
+    toggle.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => updateButton());
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      progress.max = audio.duration;
+      time.textContent = `0:00 / ${formatTime(audio.duration)}`;
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      progress.value = audio.currentTime;
+      time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+
+    audio.addEventListener('play', updateButton);
+    audio.addEventListener('pause', updateButton);
+    audio.addEventListener('ended', () => {
+      audio.currentTime = 0;
+      updateButton();
+    });
+    progress.addEventListener('input', () => {
+      audio.currentTime = Number(progress.value);
+    });
+    updateButton();
+  }
+
+  function initInteractiveButtons() {
+    document.querySelectorAll('.interactive-button, .main-nav a, .post-link').forEach(element => {
+      element.addEventListener('pointermove', event => {
+        const bounds = element.getBoundingClientRect();
+        element.style.setProperty('--mx', `${event.clientX - bounds.left}px`);
+        element.style.setProperty('--my', `${event.clientY - bounds.top}px`);
+      });
+    });
+  }
+
   // 事件监听
   window.addEventListener('resize', resize);
 
@@ -154,6 +217,8 @@
     animate();
     BackgroundManager.init();
     updateHeaderBg();
+    initMusicPlayer();
+    initInteractiveButtons();
   });
 
   // 页面可见性控制（后台暂停动画节省资源）
