@@ -148,6 +148,47 @@
     });
   }
 
+  async function navigateWithoutReload(url, replace = false) {
+    const response = await fetch(url, { headers: { 'X-Requested-With': 'fetch' } });
+    if (!response.ok) throw new Error(`Navigation failed: ${response.status}`);
+
+    const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+    const nextContent = page.querySelector('.page-content');
+    const currentContent = document.querySelector('.page-content');
+    if (!nextContent || !currentContent) throw new Error('Page content not found');
+
+    currentContent.replaceWith(nextContent);
+    document.title = page.title;
+    if (replace) {
+      history.replaceState({}, '', url);
+    } else {
+      history.pushState({}, '', url);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function initPersistentNavigation() {
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href]');
+      if (!link || event.defaultPrevented || event.button !== 0) return;
+      if (link.target === '_blank' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin || url.hash) return;
+
+      event.preventDefault();
+      navigateWithoutReload(url.href).catch(() => {
+        window.location.href = url.href;
+      });
+    });
+
+    window.addEventListener('popstate', () => {
+      navigateWithoutReload(window.location.href, true).catch(() => {
+        window.location.reload();
+      });
+    });
+  }
+
   // 事件监听
   window.addEventListener('resize', resize);
 
@@ -157,6 +198,7 @@
     animate();
     initMusicPlayer();
     initInteractiveButtons();
+    initPersistentNavigation();
   });
 
   // 页面可见性控制（后台暂停动画节省资源）
