@@ -7,9 +7,6 @@
   <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
 </head>
 <body>
-  <!-- 随机风景图床背景层 -->
-  <div class="bg-layer" id="bgLayer"></div>
-
   <!-- 白色雨特效层 -->
   {% include rain-effect.html %}
 
@@ -35,7 +32,7 @@
 
   <section class="music-player" aria-label="音乐播放器">
     <audio id="musicAudio" preload="metadata">
-      <source src="{{ '/Castle城 - 雨之城.mp3' | relative_url }}" type="audio/mpeg">
+      <source src="{{ '/music/Castle城 - 雨之城.mp3' | relative_url }}" type="audio/mpeg">
     </audio>
     <div class="music-player-main">
       <button class="player-button interactive-button" id="musicToggle" type="button" aria-label="播放音乐" title="播放音乐">

@@ -85,66 +85,6 @@
     animationId = requestAnimationFrame(animate);
   }
 
-  // 背景图管理
-  const BackgroundManager = {
-    currentIndex: 0,
-    images: [],
-    preloadCount: 3,
-
-    init() {
-      this.bgLayer = document.getElementById('bgLayer');
-      if (!this.bgLayer) return;
-
-      // 预加载几张风景图
-      for (let i = 0; i < this.preloadCount; i++) {
-        this.loadImage(i);
-      }
-
-      // 设置初始背景
-      this.setBackground(0);
-
-      // 每 45 秒切换一次背景
-      setInterval(() => {
-        this.currentIndex = (this.currentIndex + 1) % this.preloadCount;
-        this.setBackground(this.currentIndex);
-      }, 45000);
-    },
-
-    loadImage(index) {
-      const img = new Image();
-      // 使用 picsum.photos 随机风景图（不同 seed 确保不同图片）
-      const seed = Date.now() + index * 1000;
-      img.src = `https://picsum.photos/seed/${seed}/1920/1080`;
-      this.images[index] = img;
-    },
-
-    setBackground(index) {
-      if (!this.bgLayer) return;
-      const seed = Date.now() + index * 9999;
-      const url = `https://picsum.photos/seed/${seed}/1920/1080`;
-
-      // 先加载再切换，避免白屏
-      const tempImg = new Image();
-      tempImg.onload = () => {
-        this.bgLayer.style.opacity = '0';
-        setTimeout(() => {
-          this.bgLayer.style.backgroundImage = `url(${url})`;
-          this.bgLayer.style.opacity = '1';
-        }, 200);
-      };
-      tempImg.src = url;
-    }
-  };
-
-  // 顶栏背景图更新
-  function updateHeaderBg() {
-    const headerBg = document.getElementById('headerBg');
-    if (!headerBg) return;
-    const seed = Date.now();
-    // 使用轻量级随机图作为顶栏微纹理
-    headerBg.style.setProperty('--header-img', `url(https://picsum.photos/seed/${seed}/1920/64)`);
-  }
-
   function initMusicPlayer() {
     const audio = document.getElementById('musicAudio');
     const toggle = document.getElementById('musicToggle');
@@ -215,8 +155,6 @@
   window.addEventListener('DOMContentLoaded', () => {
     initDrops();
     animate();
-    BackgroundManager.init();
-    updateHeaderBg();
     initMusicPlayer();
     initInteractiveButtons();
   });
